@@ -15,26 +15,12 @@ pipeline {
         }
 
         stage('Pushing Image to DockerHub') {
-            environment {
-                DOCKER_HUB = credentials('docker_credL') // Use Jenkins credentials for DockerHub
-            }
-
             steps {
-                // Print out the variables for debugging (avoid printing passwords in production)
-                bat 'echo %DOCKER_HUB_USR%'
-                bat 'echo %DOCKER_HUB_PSW%'
-
-                // Secure login to DockerHub using --password-stdin
-
-
-                script {
-                    withEnv(["DOCKER_USERNAME=%DOCKER_HUB_USR%", "DOCKER_PASSWORD=%DOCKER_HUB_PSW%"]) {
-                        bat 'echo %DOCKER_PASSWORD% | docker login -u %DOCKER_USERNAME% --password-stdin'
-                    }
+                // Use the withCredentials block to inject the credentials into the environment variables
+                withCredentials([usernamePassword(credentialsId: 'docker_credL', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                    // Perform Docker login using the credentials
+                    bat "echo %DOCKER_PASSWORD% | docker login -u %DOCKER_USERNAME% --password-stdin"
                 }
-
-                // Push the image to DockerHub
-                bat "docker push apurvanaik422/seldocker100"
             }
         }
     }
