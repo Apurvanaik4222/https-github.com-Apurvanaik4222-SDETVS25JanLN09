@@ -1,45 +1,42 @@
-pipeline{
-agent any
+pipeline {
+    agent any
 
-stages{
-    stage('Building jars'){
+    stages {
+        stage('Building jars') {
+            steps {
+                bat "mvn clean package -DskipTests"
+            }
+        }
 
-        steps{
+        stage('Creating an Image') {
+            steps {
+                bat "docker build -t apurvanaik422/seldocker100 ."
+            }
+        }
 
-            bat "mvn clean package -DskipTests"
+        stage('Pushing Image to DockerHub') {
+            environment {
+                DOCKER_HUB = credentials('docker_cred') // Use Jenkins credentials for DockerHub
+            }
+
+            steps {
+                // Secure login to DockerHub using --password-stdin
+                script {
+                    withEnv(["DOCKER_USERNAME=%DOCKER_HUB_USR%", "DOCKER_PASSWORD=%DOCKER_HUB_PSW%"]) {
+                        bat 'echo %DOCKER_PASSWORD% | docker login -u %DOCKER_USERNAME% --password-stdin'
+                    }
+                }
+
+                // Push the image to DockerHub
+                bat "docker push apurvanaik422/seldocker100"
+            }
         }
     }
 
-    stage('Creating an Image'){
-
-        steps{
-
-            bat "docker build -t apurvanaik422/seldocker100 ."
+    post {
+        always {
+            // Logout from DockerHub after pipeline execution
+            bat "docker logout"
         }
     }
-
-    stage('Pushing Image to DockerHub'){
-
-        environment{
-            DOCKER_HUB =credentials('docker_cred')
-        }
-
-        steps{
-            bat 'docker login -u %DOCKER_HUB_USR% -p %DOCKER_HUB_PSW%'
-            bat 'echo %DOCKER_HUB_PSW% | docker login -u %DOCKER_HUB_USR% --password-stdin'
-            bat "docker push apurvanaik422/seldocker100"
-        }
-
-    }
-
-
-}
-post{
-
-    always{
-        bat "docker logout"
-
-    }
-}
-
 }
