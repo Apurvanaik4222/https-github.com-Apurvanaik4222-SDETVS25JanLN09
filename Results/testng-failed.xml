@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite parallel="tests" name="Failed suite [FlightReservation Suite]">
+  <listeners>
+    <listener class-name="Utils.Listeners"/>
+  </listeners>
+  <test thread-count="5" parallel="tests" name="FlightReservation Test(failed)">
+    <parameter name="filePath" value="C:\Users\91762\IdeaProjects\SDETVS25JanL\src\test\resources\DataFiles\TestData.json"/>
+    <classes>
+      <class name="test.ReservationTest">
+        <methods>
+          <include name="sleep"/>
+          <include name="tearDown"/>
+          <include name="setup"/>
+          <include name="flightSearch"/>
+          <include name="configSetUp"/>
+          <include name="registration"/>
+          <include name="reservationConfirmation"/>
+          <include name="registrationConfirmation"/>
+          <include name="selectFlights"/>
+        </methods>
+      </class> <!-- test.ReservationTest -->
+    </classes>
+  </test> <!-- FlightReservation Test(failed) -->
+</suite> <!-- Failed suite [FlightReservation Suite] -->
