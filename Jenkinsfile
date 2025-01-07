@@ -20,6 +20,10 @@ pipeline {
             }
 
             steps {
+                // Print out the variables for debugging (avoid printing passwords in production)
+                bat 'echo %DOCKER_HUB_USR%'
+                bat 'echo %DOCKER_HUB_PSW%'
+
                 // Secure login to DockerHub using --password-stdin
                 script {
                     withEnv(["DOCKER_USERNAME=%DOCKER_HUB_USR%", "DOCKER_PASSWORD=%DOCKER_HUB_PSW%"]) {
