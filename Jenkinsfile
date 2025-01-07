@@ -17,7 +17,7 @@ pipeline {
         stage('Pushing Image to DockerHub') {
             steps {
                 // Use the withCredentials block to inject the credentials into the environment variables
-                withCredentials([usernamePassword(credentialsId: 'docker_credL', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                withCredentials([usernamePassword(credentialsId: 'dockercred', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
                     // Perform Docker login using the credentials
                     bat "echo %DOCKER_PASSWORD% | docker login -u %DOCKER_USERNAME% --password-stdin"
                 }
