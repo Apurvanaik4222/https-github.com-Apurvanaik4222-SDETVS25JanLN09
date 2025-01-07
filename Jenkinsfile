@@ -16,7 +16,7 @@ pipeline {
 
         stage('Pushing Image to DockerHub') {
             environment {
-                DOCKER_HUB = credentials('docker_cred') // Use Jenkins credentials for DockerHub
+                DOCKER_HUB = credentials('docker_credL') // Use Jenkins credentials for DockerHub
             }
 
             steps {
@@ -25,6 +25,8 @@ pipeline {
                 bat 'echo %DOCKER_HUB_PSW%'
 
                 // Secure login to DockerHub using --password-stdin
+
+
                 script {
                     withEnv(["DOCKER_USERNAME=%DOCKER_HUB_USR%", "DOCKER_PASSWORD=%DOCKER_HUB_PSW%"]) {
                         bat 'echo %DOCKER_PASSWORD% | docker login -u %DOCKER_USERNAME% --password-stdin'
