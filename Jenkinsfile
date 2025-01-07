@@ -25,14 +25,21 @@ stages{
         }
 
         steps{
-            //docker login -u $(DOCKER_HUB_USR) -p $(DOCKER_HUB_PSW)  --linux
             bat 'docker login -u %DOCKER_HUB_USR% -p %DOCKER_HUB_PSW%'
+            bat 'echo %DOCKER_HUB_PSW% | docker login -u %DOCKER_HUB_USR% --password-stdin'
             bat "docker push apurvanaik422/seldocker100"
         }
 
     }
 
 
+}
+post{
+
+    always{
+        bat "docker logout"
+
+    }
 }
 
 }
