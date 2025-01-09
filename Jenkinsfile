@@ -18,4 +18,20 @@ pipeline {
             steps {
                 script {
                     // Build the Docker image
-                    app = docker.build('apurvana
+                    app = docker.build('apurvanaik422/seldocker100')
+                }
+            }
+        }
+
+        stage('Pushing Image to DockerHub') {
+            steps {
+                script {
+                    docker.withRegistry('', 'dockercred') {
+                        // Push the image with the 'latest' tag
+                        app.push('latest')
+                    }
+                }
+            }
+        }
+    }
+}
