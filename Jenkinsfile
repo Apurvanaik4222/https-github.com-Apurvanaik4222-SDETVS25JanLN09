@@ -6,11 +6,11 @@ pipeline {
             agent {
                 docker {
                     image 'maven:3.9.3-eclipse-temurin-17-focal'
-                    args '-v /mnt/c/Users/91762/DockerVolumeTest/DockerFile/Workspace/Jenkins/volumes/NodeServer/workspace:/workspace -w /workspace -u root -v /tmp/m2:/root/.m2'
-
+                    args '-v ${WORKSPACE}:/workspace -w /workspace'
                 }
             }
             steps {
+                // Build the project using Maven
                 sh "mvn clean package -DskipTests"
             }
         }
