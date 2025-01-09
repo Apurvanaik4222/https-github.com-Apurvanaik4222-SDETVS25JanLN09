@@ -6,11 +6,10 @@ pipeline {
             agent {
                 docker {
                     image 'maven:3.9.3-eclipse-temurin-17-focal'
-                    args '-v ${WORKSPACE}:/workspace -w /workspace'
+                    args "-v ${env.WORKSPACE.replace('\\', '/').replace('C:', '/c')}:/workspace -w /workspace"
                 }
             }
             steps {
-                // Build the project using Maven
                 sh "mvn clean package -DskipTests"
             }
         }
@@ -18,7 +17,6 @@ pipeline {
         stage('Creating an Image') {
             steps {
                 script {
-                    // Build the Docker image
                     app = docker.build('apurvanaik422/seldocker100')
                 }
             }
@@ -28,7 +26,6 @@ pipeline {
             steps {
                 script {
                     docker.withRegistry('', 'dockercred') {
-                        // Push the image with the 'latest' tag
                         app.push('latest')
                     }
                 }
