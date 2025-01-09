@@ -4,10 +4,11 @@ pipeline {
     stages {
         stage('Building JARs') {
             agent {
-                docker {
+               docker {
                     image 'maven:3.9.3-eclipse-temurin-17-focal'
-                    args '-v C:/Users/91762/DockerVolumeTest/DockerFile/Workspace/Jenkins/volumes/NodeServer/workspace:/workspace -w /workspace -u root -v /tmp/m2:/root/.m2'
+                    args '-v /c/Users/91762/DockerVolumeTest/DockerFile/Workspace/Jenkins/volumes/NodeServer/workspace:/workspace -w /workspace -u root -v /tmp/m2:/root/.m2'
                 }
+            }
             }
             steps {
                 sh "mvn clean package -DskipTests"
