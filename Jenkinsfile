@@ -31,8 +31,9 @@ pipeline {
 
                 // Push the image to DockerHub
                 bat "docker push apurvanaik422/seldocker100"
-                bat "docker tag apurvanaik422/seldocker100:latest apurvanaik422/seldocker100:${env.BUILD_NUMBER}"
-                bat "docker push apurvanaik422/seldocker100:${env.BUILD_NUMBER}"
+                //Taging
+                //bat "docker tag apurvanaik422/seldocker100:latest apurvanaik422/seldocker100:${env.BUILD_NUMBER}"
+                //bat "docker push apurvanaik422/seldocker100:${env.BUILD_NUMBER}"
             }
         }
     }

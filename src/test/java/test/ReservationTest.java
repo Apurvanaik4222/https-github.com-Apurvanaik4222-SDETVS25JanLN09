@@ -40,6 +40,7 @@ public class ReservationTest  extends BaseTest{
         selectFlightsPage.isAt();
         selectFlightsPage.selectFlight();
         selectFlightsPage.clickConfirmFlights();
+        Assert.assertTrue(false);
     }
 
     @Test(dependsOnMethods = "selectFlights")
